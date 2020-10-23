@@ -45,6 +45,19 @@ def rollout(board, state):
         state:  The state of the game.
 
     """
+
+    move = random.choice(board.legal_actions(state))
+
+    rollout_state = board.next_state(state, move)
+
+    while(!(board.is_ended(rollout_state))):
+
+        move = random.choice(board.legal_actions(state))
+        rollout_state = board.next_state(rollout_state, move)
+
+
+
+
     pass
 
 
