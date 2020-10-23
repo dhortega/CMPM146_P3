@@ -46,14 +46,14 @@ def rollout(board, state):
 
     """
 
-    move = random.choice(board.legal_actions(state))
+    move = random.choice(board.legal_actions(state)) #pick a random move
 
-    rollout_state = board.next_state(state, move)
+    rollout_state = board.next_state(state, move) #do the random move
 
-    while(!(board.is_ended(rollout_state))):
+    while(!(board.is_ended(rollout_state))): #as long as the game isnt finished
 
-        move = random.choice(board.legal_actions(state))
-        rollout_state = board.next_state(rollout_state, move)
+        move = random.choice(board.legal_actions(state)) #keep picking random moves
+        rollout_state = board.next_state(rollout_state, move) #and keep doing those random moves
 
 
 
@@ -70,16 +70,18 @@ def backpropagate(node, won):
 
     """
 
-    if(node.parent == None):
-        return
-    else:
-        node.wins += won
-        node.visits +=1
-        return backpropagate(node.parent, won)
+    if(node.parent == None): 			#if we are at the root
+        return 						#you're done
+    else: 					#if we are not at the root
+        node.wins += won 				#update the wins value of this node by either adding 1, 0, or -1 depending on if its a win, tie, or loss respectively
+        node.visits +=1 				#update visits by adding 1
+        return backpropagate(node.parent, won) 		#repeate with the parent of this node
 
 
 
     pass
+
+
 
 
 def think(board, state):
