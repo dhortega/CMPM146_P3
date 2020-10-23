@@ -18,6 +18,23 @@ def traverse_nodes(node, board, state, identity):
     Returns:        A node from which the next stage of the search can proceed.
 
     """
+    leafNodeList = []
+    # Start from the parameter node which is the tree node specified
+    current_node = node
+
+    # Set a boolean representing that leaf has not been reached yet
+    # board.legal actions is empty or board.is_ended() indicates that you are at the leaf node
+    reachedLeaf = board.is_ended() # Returns true or false 
+
+    # Repeat code until leaf is reached
+    # The leaf node should be the most recent move made by a player
+    while not reachedLeaf:
+        # Move to the next child node
+        # change what current node is?
+        # current_node = node.
+        
+        # Add leaf node to the list
+
     pass
     # Hint: return leaf_node
 
