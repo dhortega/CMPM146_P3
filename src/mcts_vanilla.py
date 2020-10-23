@@ -69,6 +69,16 @@ def backpropagate(node, won):
         won:    An indicator of whether the bot won or lost the game.
 
     """
+
+    if(node.parent == None):
+        return
+    else:
+        node.wins += won
+        node.visits +=1
+        return backpropagate(node.parent, won)
+
+
+
     pass
 
 
