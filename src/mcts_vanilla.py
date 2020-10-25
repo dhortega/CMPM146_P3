@@ -100,6 +100,16 @@ def backpropagate(node, won):
 
 
 
+def find_all_leaves(node, identity):					#return a list of all of the leaves in the tree
+    to_add = []								#Make an empty list
+    if(node.child_nodes == None):					#if youre at a child node add it to the list and return the list
+        to_add.append(node)
+        return to_add
+    else:								#for every child of the current node
+        for children in node.child_nodes
+            to_add = to_add + find_all_leaves(children, identity)		#add the eventual leaves of those children to the list
+        return to_add							#return the list
+
 
 def think(board, state):
     """ Performs MCTS by sampling games and calling the appropriate functions to construct the game tree.
