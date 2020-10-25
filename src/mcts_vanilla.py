@@ -37,15 +37,28 @@ def traverse_nodes(node, board, state, identity):
     # board.legal actions is empty or board.is_ended() indicates that you are at the leaf node
     reachedLeaf = board.is_ended(state) # Returns true or false 
 
+    # Main code:
+    if (current_node.untriedActions is None):
+        return current_node
+
     # Repeat code until leaf is reached
-    while not reachedLeaf:
+    else:
+        for child in current_node.child_nodes:
+        # Expand child node
+        #expand_leaf(current_node, board, state
+        
+        # Run traverse_nodes again, going to the child of the current_node
+        traverse_nodes(child, board, state, identity)
+        # Removes the 
+        current_node.untriedActions.pop(0)              
+    #while not reachedLeaf:
         # Move to the next child node
         
 
         # Update what current node is
         # current_node = 
         
-    pass
+    #pass
     # Hint: return leaf_node
 
 
@@ -60,6 +73,11 @@ def expand_leaf(node, board, state):
     Returns:    The added child node.
 
     """
+    # Keeping track of the current node
+    node_to_add_to = node
+
+    node_to_add_to.child_nodes[new_child] = 
+
     pass
     # Hint: return new_node
 

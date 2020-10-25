@@ -206,7 +206,7 @@ class Board(object):
         else:
             state[20], state[21] = r, c
 
-        return tuple(state)
+        return tuple(state)               # Returns a tuple. In p3_play.py, it looks like ( , , , , , , . . . R, C, player)
 
     def is_legal(self, state, action):
         R, C, r, c = action
