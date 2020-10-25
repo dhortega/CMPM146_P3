@@ -46,6 +46,7 @@ for i in range(rounds):
     current_player = player1
     while not board.is_ended(state):
         last_action = current_player(board, state)
+        #print("current state is: "+ state)
         state = board.next_state(state, last_action)
         current_player = player1 if current_player == player2 else player2
     print("Finished!")

@@ -1,6 +1,6 @@
 import sys
 import p3_t3
-import mcts_vanilla
+#import mcts_vanilla
 import mcts_modified
 import random_bot
 import rollout_bot
@@ -20,7 +20,7 @@ players = dict(
     human=get_human_input,
     random_bot=random_bot.think,
     rollout_bot=rollout_bot.think,
-    mcts_vanilla=mcts_vanilla.think,
+#    mcts_vanilla=mcts_vanilla.think,
     mcts_modified=mcts_modified.think
 )
 
@@ -49,6 +49,7 @@ while not board.is_ended(state):
     print(board.display(state, last_action))
     print("Player "+str(board.current_player(state)))
     last_action = current_player(board, state)
+    print(state)
     state = board.next_state(state, last_action)
     current_player = player1 if current_player == player2 else player2
 print("Finished!")

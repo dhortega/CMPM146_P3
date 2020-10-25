@@ -110,6 +110,22 @@ def find_all_leaves(node, identity):					#return a list of all of the leaves in 
             to_add = to_add + find_all_leaves(children, identity)		#add the eventual leaves of those children to the list
         return to_add							#return the list
 
+def is_win(node, board, state, identity):
+    board.display(state, node.parent_action))
+    print('checking if this is a win, action: ' + board.display_action(node.parent_action))
+
+    if(board.current_player(state) == identity):
+        return 1;
+
+    else:
+        return -1;
+
+
+
+
+
+
+
 
 def think(board, state):
     """ Performs MCTS by sampling games and calling the appropriate functions to construct the game tree.
@@ -127,11 +143,52 @@ def think(board, state):
     for step in range(num_nodes):
         # Copy the game for sampling a playthrough
         sampled_game = state
+        sampled_board = board
 
         # Start at root
         node = root_node
 
         # Do MCTS - This is all you!
+
+
+
+
+    #identifying the decision tree
+
+
+
+
+
+
+
+    #Deciding the best move from the established tree
+
+    leaves = find_all_leaves(node, identity)
+
+    for leaf in leaves:
+        sampled_board = board
+        sampled_state = state
+        root = root_node
+        sampled_leaf = leaf
+        actions = []
+        while(sampled_leaf != root):
+            actions.append(sampled_leaf.parent_action)
+            sampled_leaf = sampled_leaf.parent
+        length = ((len(actions))-1)
+        while(length >= 0):
+            sampled_state = sampled_board.next_state(sampled_state, actions(length))
+            length --;
+        backpropagate(leaf, is_win(leaf, sampled_board, sampled_state, identity_of_bot))
+
+
+    best_action = (1,1, 1,1, -20)
+    for child in root_node.child_nodes
+        if(child.wins >= best_action[-1])
+            best_action = (child.parent_action) + (child.wins)
+    return best_action[0:-1]
+
+
+
 
     # Return an action, typically the most frequently used action (from the root) or the action with the best
     # estimated win rate.
