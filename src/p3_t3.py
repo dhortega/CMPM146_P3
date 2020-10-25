@@ -184,7 +184,7 @@ class Board(object):
         return self.unpack_action(action)
 
     def next_state(self, state, action):
-        R, C, r, c = action
+        R, C, r, c = action                 # Last action, which is the last board and the last position on that board
         player = state[-1]
         board_index = 2 * (3 * R + C)
         player_index = player - 1

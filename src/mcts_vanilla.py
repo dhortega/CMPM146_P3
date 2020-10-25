@@ -10,6 +10,9 @@ def traverse_nodes(node, board, state, identity):
     """ Traverses the tree until the end criterion are met.
 
     Args:
+    # state[-3] x box in the turn made
+    # state[-2]
+    # state[-1] gives us the player
         node:       A tree node from which the search is traversing.
         board:      The game setup.
         state:      The state of the game.
@@ -18,23 +21,30 @@ def traverse_nodes(node, board, state, identity):
     Returns:        A node from which the next stage of the search can proceed.
 
     """
-    leafNodeList = []
+    # Goal:
+    # Traverse to the leaf node, given a specifed node of a tree
+
+    # Current Notes:
+    # state[-3] x of the bigger box that the player specified
+    # state[-2] y of the bigger box that the player specified
+    # state[-1] gives the player who just made a move
+    # an action is: R C r c, which is x y of a big box and x y within that big box 
+    
     # Start from the parameter node which is the tree node specified
     current_node = node
 
     # Set a boolean representing that leaf has not been reached yet
     # board.legal actions is empty or board.is_ended() indicates that you are at the leaf node
-    reachedLeaf = board.is_ended() # Returns true or false 
+    reachedLeaf = board.is_ended(state) # Returns true or false 
 
     # Repeat code until leaf is reached
-    # The leaf node should be the most recent move made by a player
     while not reachedLeaf:
         # Move to the next child node
-        # change what current node is?
-        # current_node = node.
         
-        # Add leaf node to the list
 
+        # Update what current node is
+        # current_node = 
+        
     pass
     # Hint: return leaf_node
 
