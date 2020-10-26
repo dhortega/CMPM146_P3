@@ -204,7 +204,7 @@ def think(board, state):
 
     print("starting to make the tree");
 
-    traverse_nodes(node, board, state, identity_of_bot)
+    traverse_nodes(node, board, state, identity_of_bot, 0)
 
     #Deciding the best move from the established tree
 
