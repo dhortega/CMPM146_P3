@@ -4,7 +4,7 @@ from mcts_node import MCTSNode
 from random import choice
 from math import sqrt, log
 import time
-num_nodes = 1000
+num_nodes = 100
 
 explore_faction = 2.
 
@@ -43,7 +43,7 @@ def traverse_nodes(node, board, state, identity, test_depth):
     if (reachedLeaf):
         return node
     elif(test_depth >= (math.log(num_nodes, 10))):
-        rollout(node, board, state)
+        rollout(node, board, state, identity)
 
     # Repeat code until leaf is reached
     else:
@@ -106,7 +106,45 @@ def expand_leaf(node, board, state, child_action, test):
     # Hint: return new_node
 
 
-def rollout(node, board, state):
+
+def strategy(node, board, state, identity):
+
+    least_move = random.choice(board.legal_actions(state))
+
+    least_state = board.next_state(state, least_move)
+
+    for move in board.legal_actions(state):
+        next_state = board.next_state(state, move)
+
+        red_score = len([v for v in (board.owned_boxes(state)).values() if v == 1])
+        blue_score = len([v for v in (board.owned_boxes(state)).values() if v == 2])
+
+
+        next_red_score = len([v for v in (board.owned_boxes(next_state)).values() if v == 1])
+        next_blue_score = len([v for v in (board.owned_boxes(next_state)).values() if v == 2])
+        if(identity == 1):
+            if(next_red_score > red_score or next_blue_score > blue_score):
+                return move
+        #else:
+            #if(next_blue_score > blue_score):
+                #return move
+        if(len(board.legal_actions(next_state)) <= len(board.legal_actions(least_state))):
+            least_move = move
+            least_state = next_state
+
+    return least_move
+
+
+
+
+
+
+
+
+
+
+
+def rollout(node, board, state, identity):
     """ Given the state of the game, the rollout plays out the remainder randomly.
 
     Args:
@@ -120,7 +158,8 @@ def rollout(node, board, state):
     rollout_state = state
     rollout_move = 0
     while((board.is_ended(rollout_state) is not True)): #as long as the game isnt finished
-        move = random.choice(board.legal_actions(rollout_state))
+        #move = random.choice(board.legal_actions(rollout_state))
+        move = strategy(node, board, rollout_state, identity)
         new_node = expand_leaf(node, board, rollout_state, move, rollout_move)
         node.child_nodes[move] = new_node
 
@@ -249,12 +288,12 @@ def think(board, state):
         backpropagate(leaf, outcome(board.owned_boxes(sampled_state), board.points_values(sampled_state), identity_of_bot))
 
 
-    best_action = (1,1, 1,1, 0, -20)
+    best_action = (1,1, 1,1, 1, -200000)
     for child in root_node.child_nodes.values():
-        if(float(child.wins)/child.visits >= best_action[-1]):
-            best_action = (child.parent_action) + (0, child.wins)
+        if(float(child.wins)/child.visits >= best_action[-1]/best_action[-2]):
+            best_action = (child.parent_action) + (child.visits, child.wins)
     print(node.tree_to_string(3,0))
-    print("mcts_vanilla Bot picking %s with expected score %f" %(str(best_action[0:-2]), best_action[-1]))
+    print("mcts_vanilla Bot picking %s with expected score %f" %(str(best_action[0:-2]), best_action[-1]/best_action[-2]))
     return best_action[0:-2]
 
 

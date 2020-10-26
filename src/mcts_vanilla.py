@@ -249,12 +249,12 @@ def think(board, state):
         backpropagate(leaf, outcome(board.owned_boxes(sampled_state), board.points_values(sampled_state), identity_of_bot))
 
 
-    best_action = (1,1, 1,1, 0, -20)
+    best_action = (1,1, 1,1, 1, -20000)
     for child in root_node.child_nodes.values():
-        if(float(child.wins)/child.visits >= best_action[-1]):
+        if(float(child.wins)/child.visits >= best_action[-1]/best_action[-2]):
             best_action = (child.parent_action) + (0, child.wins)
     print(node.tree_to_string(3,0))
-    print("mcts_vanilla Bot picking %s with expected score %f" %(str(best_action[0:-2]), best_action[-1]))
+    print("mcts_vanilla Bot picking %s with expected score %f" %(str(best_action[0:-2]), best_action[-1]/best_action[-2]))
     return best_action[0:-2]
 
 
