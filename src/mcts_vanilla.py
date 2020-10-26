@@ -31,7 +31,7 @@ def traverse_nodes(node, board, state, identity):
     # an action is: R C r c, which is x y of a big box and x y within that big box 
     
     # Start from the parameter node which is the tree node specified
-    current_node = node
+    # current_node = node
 
     # Set a boolean representing that leaf has not been reached yet
     # board.legal actions is empty or board.is_ended() indicates that you are at the leaf node
@@ -43,14 +43,22 @@ def traverse_nodes(node, board, state, identity):
 
     # Repeat code until leaf is reached
     else:
-        for child in current_node.child_nodes:
-        # Expand child node
-        #expand_leaf(current_node, board, state
+
+        for child in current_node.untried_actions:
+    
+            # Expand child node
+            new_node = expand_leaf(node, board, state, child)
+            node.child_nodes[child] = new_node 
+
+            # Removes the untried action of the tree node
+            node.untried_actions.pop(0)
+
+            # Run traverse_nodes again, going to the child of the current_node
+            # The state is changed as well
+            traverse_nodes(node.child_nodes[child], board, board.next_state(state, child), identity)
         
-        # Run traverse_nodes again, going to the child of the current_node
-        traverse_nodes(child, board, state, identity)
-        # Removes the 
-        current_node.untriedActions.pop(0)              
+        return
+                      
     #while not reachedLeaf:
         # Move to the next child node
         
@@ -62,7 +70,7 @@ def traverse_nodes(node, board, state, identity):
     # Hint: return leaf_node
 
 
-def expand_leaf(node, board, state):
+def expand_leaf(node, board, state, child_action):
     """ Adds a new leaf to the tree by creating a new child node for the given node.
 
     Args:
@@ -73,12 +81,20 @@ def expand_leaf(node, board, state):
     Returns:    The added child node.
 
     """
-    # Keeping track of the current node
-    node_to_add_to = node
+    
+    # Changes state of board to the next state
+    state = board.next_state(state, child_action)
 
-    node_to_add_to.child_nodes[new_child] = 
+    # Creates a child node
+    child_node = mcts_node.MCTSNode(node, child_action, board.legal_actions(state))
 
-    pass
+
+    # Setting child node's untried actions.
+    #child_node.untried_actions =  
+    #node_to_add_to.child_nodes[new_child] =
+ 
+    return child_node
+    # Returns 
     # Hint: return new_node
 
 
@@ -180,14 +196,11 @@ def think(board, state):
 
 
 
-
+    # Utilize traverse_nodes()
+    # Then expand_leaf()
     #identifying the decision tree
 
-
-
-
-
-
+    traverse_nodes(node, board, state, identity_of_bot)
 
     #Deciding the best move from the established tree
 
