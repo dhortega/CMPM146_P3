@@ -6,7 +6,7 @@ from math import sqrt, log
 num_nodes = 1000
 explore_faction = 2.
 
-def traverse_nodes(node, board, state, identity):
+def traverse_nodes(node, board, state, identity, test_depth):
     """ Traverses the tree until the end criterion are met.
 
     Args:
@@ -38,16 +38,16 @@ def traverse_nodes(node, board, state, identity):
     reachedLeaf = board.is_ended(state) # Returns true or false 
 
     # Main code:
-    if (current_node.untriedActions is None):
-        return current_node
+    if (node.untried_actions is None):
+        return node
 
     # Repeat code until leaf is reached
     else:
 
-        for child in current_node.untried_actions:
+        for child in node.untried_actions:
     
             # Expand child node
-            new_node = expand_leaf(node, board, state, child)
+            new_node = expand_leaf(node, board, state, child, test_depth)
             node.child_nodes[child] = new_node 
 
             # Removes the untried action of the tree node
@@ -55,7 +55,8 @@ def traverse_nodes(node, board, state, identity):
 
             # Run traverse_nodes again, going to the child of the current_node
             # The state is changed as well
-            traverse_nodes(node.child_nodes[child], board, board.next_state(state, child), identity)
+            traverse_nodes(node.child_nodes[child], board, board.next_state(state, child), identity, test_depth+1)
+            node.tree_to_string(100,0)
         
         return
                       
@@ -70,7 +71,7 @@ def traverse_nodes(node, board, state, identity):
     # Hint: return leaf_node
 
 
-def expand_leaf(node, board, state, child_action):
+def expand_leaf(node, board, state, child_action, test):
     """ Adds a new leaf to the tree by creating a new child node for the given node.
 
     Args:
@@ -86,13 +87,14 @@ def expand_leaf(node, board, state, child_action):
     state = board.next_state(state, child_action)
 
     # Creates a child node
-    child_node = mcts_node.MCTSNode(node, child_action, board.legal_actions(state))
+    child_node = MCTSNode(node, child_action, board.legal_actions(state))
 
 
     # Setting child node's untried actions.
     #child_node.untried_actions =  
     #node_to_add_to.child_nodes[new_child] =
- 
+    print(child_node.parent_action)
+    print(test)
     return child_node
     # Returns 
     # Hint: return new_node
@@ -111,7 +113,7 @@ def rollout(board, state):
 
     rollout_state = board.next_state(state, move) #do the random move
 
-    while(!(board.is_ended(rollout_state))): #as long as the game isnt finished
+    while((board.is_ended(rollout_state) is not true)): #as long as the game isnt finished
 
         move = random.choice(board.legal_actions(state)) #keep picking random moves
         rollout_state = board.next_state(rollout_state, move) #and keep doing those random moves
@@ -150,12 +152,12 @@ def find_all_leaves(node, identity):					#return a list of all of the leaves in 
         to_add.append(node)
         return to_add
     else:								#for every child of the current node
-        for children in node.child_nodes
+        for children in node.child_nodes.values():
             to_add = to_add + find_all_leaves(children, identity)		#add the eventual leaves of those children to the list
         return to_add							#return the list
 
 def is_win(node, board, state, identity):
-    board.display(state, node.parent_action))
+    board.display(state, node.parent_action)
     print('checking if this is a win, action: ' + board.display_action(node.parent_action))
 
     if(board.current_player(state) == identity):
@@ -200,6 +202,8 @@ def think(board, state):
     # Then expand_leaf()
     #identifying the decision tree
 
+    print("starting to make the tree");
+
     traverse_nodes(node, board, state, identity_of_bot)
 
     #Deciding the best move from the established tree
@@ -218,13 +222,13 @@ def think(board, state):
         length = ((len(actions))-1)
         while(length >= 0):
             sampled_state = sampled_board.next_state(sampled_state, actions(length))
-            length --;
+            length = length-1
         backpropagate(leaf, is_win(leaf, sampled_board, sampled_state, identity_of_bot))
 
 
     best_action = (1,1, 1,1, -20)
-    for child in root_node.child_nodes
-        if(child.wins >= best_action[-1])
+    for child in root_node.child_nodes.values():
+        if(child.wins >= best_action[-1]):
             best_action = (child.parent_action) + (child.wins)
     return best_action[0:-1]
 
