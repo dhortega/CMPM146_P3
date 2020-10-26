@@ -18,14 +18,14 @@ class MCTSNode:
         self.untried_actions = action_list      # Yet unexplored actions
 
         self.wins = 0                           # Total wins of all paths through this node.
-        self.visits = 0                         # Number of times this node has been visited.
+        self.visits = 1                         # Number of times this node has been visited.
 
     def __repr__(self):
         """
         This method provides a string representing the node. Any time str(node) is used, this method is called.
         """
         return ' '.join(["[", str(self.parent_action),
-                         "Win rate:", "{0:.0f}%".format(100), #* self.wins / self.visits),
+                         "Win rate:", "{0:.0f}%".format(100 * self.wins / self.visits),
                          "Visits:", str(self.visits),  "]"])
 
     def tree_to_string(self, horizon=1, indent=0):
