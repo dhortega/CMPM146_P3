@@ -4,7 +4,7 @@ from mcts_node import MCTSNode
 from random import choice
 from math import sqrt, log
 import time
-num_nodes = 100
+num_nodes = 1000
 
 explore_faction = 2.
 
@@ -91,7 +91,7 @@ def expand_leaf(node, board, state, child_action, test):
     state = board.next_state(state, child_action)
 
     # Creates a child node
-    child_node = MCTSNode(node, child_action, board.legal_actions(state))
+    child_node = MCTSNode(parent = node, parent_action=child_action, action_list = board.legal_actions(state))
 
 
     # Setting child node's untried actions.
@@ -157,13 +157,14 @@ def backpropagate(node, won):
 
 
 def find_all_leaves(node, identity):					#return a list of all of the leaves in the tree
-    to_add = {}								#Make an empty list
+    to_add = []								#Make an empty list
     if(node.child_nodes == {}):					#if youre at a child node add it to the list and return the list
-        to_add[node.parent_action] = node
+        to_add.append(node)
         return to_add
     else:								#for every child of the current node
         for children in node.child_nodes.values():
-            to_add.update(find_all_leaves(children, identity))		#add the eventual leaves of those children to the list
+            
+            to_add = to_add + find_all_leaves(children, identity)		#add the eventual leaves of those children to the list
         return to_add							#return the list
 
 def is_win(node, board, state, identity):
@@ -229,8 +230,8 @@ def think(board, state):
     #Deciding the best move from the established tree
 
     leaves = find_all_leaves(node, identity_of_bot)
-
-    for leaf in leaves.values():
+    #print(leaves)
+    for leaf in leaves:
         sampled_board = board
         sampled_state = state
         root = root_node
@@ -252,7 +253,7 @@ def think(board, state):
     for child in root_node.child_nodes.values():
         if(float(child.wins)/child.visits >= best_action[-1]):
             best_action = (child.parent_action) + (0, child.wins)
-    print(node.tree_to_string(4,0))
+    print(node.tree_to_string(3,0))
     print("mcts_vanilla Bot picking %s with expected score %f" %(str(best_action[0:-2]), best_action[-1]))
     return best_action[0:-2]
 

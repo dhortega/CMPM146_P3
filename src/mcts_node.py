@@ -18,7 +18,7 @@ class MCTSNode:
         self.untried_actions = action_list      # Yet unexplored actions
 
         self.wins = 0                           # Total wins of all paths through this node.
-        self.visits = 1                         # Number of times this node has been visited.
+        self.visits = 0                         # Number of times this node has been visited.
 
     def __repr__(self):
         """
