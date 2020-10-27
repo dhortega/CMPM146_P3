@@ -1,0 +1,12 @@
+result for 1000 nodes: 1 draw 3 wins for modified mcts 11 wins for vanilla mcts
+
+result for 100 nodes: 10% draws 80% wins for modified mcts 10% wins for vanilla mcts
+
+for the first result from 1000 nodes vanilla was going first and for the second test of 100 nodes modified was going first
+
+it seems as though the more nodes are available the less likely the rollout of modified is to beat the rollout of vanilla this 
+is probably because the more nodes there are, the less space the rollout logic in modified mcts has to impact the decision
+
+though when there are less nodes the rollout logic has more of an impact.
+
+increasing the size of the tree brings vanilla and modified closer together while decreasing the size makes modified better.

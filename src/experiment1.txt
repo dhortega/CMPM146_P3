@@ -1,0 +1,27 @@
+Results from experiment 1:
+
+vanilla_bot with 100 boxes compared with other alloted boxes values
+
+
+                                                 (vanilla bot with 100 boxes)
+allowed boxes for opponent          draw %         player 1 win percentage              player 2 win percentage
+
+10                                    7%                   84%                                   9%
+
+100                                   9%                   51%                                  40%
+
+1000                                  8%                   18%                                  74%
+
+10000                                29%                    0%                                  71%
+
+
+
+
+it seems as though as the number of allowed boxes rises the play of the bot becomes closer and closer to perfect.
+Assuming an infinate number of boxes were allowed the bot would probably be perfect, though it would also
+probably take hours to just decide on one move.
+
+when the points are plotted the graph with the winpercentage on the y axis and the allotted boxes on the x axis seems to
+reseamble a log function.
+
+this makes sense because at a certain point once you are close to perfect play its hard to make any more progress.
