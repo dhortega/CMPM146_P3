@@ -4,7 +4,7 @@ from mcts_node import MCTSNode
 from random import choice
 from math import sqrt, log
 import time
-num_nodes = 1000
+num_nodes = 100
 
 explore_faction = 2.
 
@@ -252,7 +252,7 @@ def think(board, state):
     best_action = (1,1, 1,1, 1, -20000)
     for child in root_node.child_nodes.values():
         if(float(child.wins)/child.visits >= best_action[-1]/best_action[-2]):
-            best_action = (child.parent_action) + (0, child.wins)
+            best_action = (child.parent_action) + (child.visits, child.wins)
     print(node.tree_to_string(3,0))
     print("mcts_vanilla Bot picking %s with expected score %f" %(str(best_action[0:-2]), best_action[-1]/best_action[-2]))
     return best_action[0:-2]
